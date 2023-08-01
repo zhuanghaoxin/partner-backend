@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ichensw.partner.mapper.TeamMapper">
+
+    <resultMap id="BaseResultMap" type="cn.ichensw.partner.model.domain.Team">
+        <id property="teamId" column="team_id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="teamImage" column="team_image" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="maxNum" column="max_num" jdbcType="INTEGER"/>
+        <result property="joinNum" column="join_num" jdbcType="INTEGER"/>
+        <result property="expireTime" column="expire_time" jdbcType="TIMESTAMP"/>
+        <result property="creatorId" column="creator_id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        team_id,name,team_image,description,
+        max_num,join_num,expire_time,creator_id, user_id,
+        status,password,create_time,
+        update_time,is_delete
+    </sql>
+
+    <update id="addTeamJoinNum">
+        update team set join_num = join_num + 1 where team_id = #{teamId}
+    </update>
+
+    <select id="listByTeamQuery" resultType="cn.ichensw.partner.model.domain.Team">
+        select
+        <include refid="Base_Column_List"/>
+        from team
+        <where>
+            is_delete = 0 and (expire_time > now() or isNull(expire_time))
+            <if test="teamId != null and teamId > 0">
+                and team_id = #{teamId}
+            </if>
+            <if test="status != null and status > -1">
+                and status = #{status}
+            </if>
+            <if test="creatorId != null and creatorId > 0">
+                and creator_id = #{creatorId}
+            </if>
+            <if test="idList != null">
+                and team_id in
+                <foreach collection="idList" item="teamId" open="(" separator="," close=")">
+                    #{teamId}
+                </foreach>
+            </if>
+            <if test="searchText != null and searchText != ''">
+                and (name like concat('%', #{searchText}, '%') or description like concat('%', #{searchText}, '%'))
+            </if>
+            <if test="name != null and name != ''">
+                and name like #{name}
+            </if>
+            <if test="description != null and description != ''">
+                and description like #{description}
+            </if>
+            <if test="maxNum != null and maxNum > 0">
+                and max_num like #{maxNum}
+            </if>
+            <if test="userId != null and userId > 0">
+                and user_id like #{userId}
+            </if>
+        </where>
+    </select>
+</mapper>

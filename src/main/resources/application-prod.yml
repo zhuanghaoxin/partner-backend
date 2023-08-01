@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.113.223.226:3306/partner
+    username: root
+    password: 87906413
+  # session失效时间
+  session:
+    timeout: 86400

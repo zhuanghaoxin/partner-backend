@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ichensw.partner.mapper.MessageMapper">
+
+    <resultMap id="BaseResultMap" type="cn.ichensw.partner.model.domain.Message">
+            <id property="messageId" column="message_id" jdbcType="BIGINT"/>
+            <result property="sendUserId" column="send_user_id" jdbcType="BIGINT"/>
+            <result property="receiveUserId" column="receive_user_id" jdbcType="INTEGER"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
+            <result property="receiveType" column="receive_type" jdbcType="TINYINT"/>
+            <result property="sendType" column="send_type" jdbcType="TINYINT"/>
+            <result property="readTime" column="read_time" jdbcType="TIMESTAMP"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="cancelTime" column="cancel_time" jdbcType="TIMESTAMP"/>
+            <result property="isCancel" column="is_cancel" jdbcType="TINYINT"/>
+            <result property="isRead" column="is_read" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        message_id,send_user_id,receive_user_id,
+        content,send_time,receive_type,
+        send_type,read_time,type,
+        cancel_time,is_cancel,is_read
+    </sql>
+</mapper>
